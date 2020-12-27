@@ -1,5 +1,7 @@
 package model;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -23,5 +25,14 @@ public class ProductType {
 
     public String toSQLTuple() {
         return String.format(SQL_TUPLE_FORMAT, ID, name);
+    }
+
+    public void convertToXML(XMLStreamWriter writer) throws XMLStreamException {
+        writer.writeStartElement("productType");
+        writer.writeAttribute("productTypeId", ID);
+        writer.writeStartElement("name");
+        writer.writeCharacters(name);
+        writer.writeEndElement();
+        writer.writeEndElement();
     }
 }

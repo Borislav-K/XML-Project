@@ -1,0 +1,16 @@
+<!DOCTYPE market [
+        <!ELEMENT market (productType*,vendor*,products?)>
+        <!ELEMENT productType (name)>
+        <!ELEMENT vendor (name,city)>
+        <!ELEMENT products (product*)>
+        <!ELEMENT product (price)>
+        <!ELEMENT name (#PCDATA)>
+        <!ELEMENT city (#PCDATA)>
+        <!ELEMENT price (#PCDATA)>
+        <!ATTLIST productType productTypeId ID #REQUIRED>
+        <!ATTLIST vendor vendorId ID #REQUIRED>
+        <!ATTLIST product
+                upi ID #REQUIRED
+                productTypeId IDREF #REQUIRED
+                vendorId IDREF #REQUIRED>
+        ]>
