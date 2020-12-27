@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DatabaseService {
 
-    private static final String JDBC_URL = "jdbc:h2:./resources/test";
+    private static final String JDBC_URL = "jdbc:h2:./database/market";
     private static final String DATABASE_USERNAME = "sa";
     private static final String DATABASE_PASSWORD = "";
 
