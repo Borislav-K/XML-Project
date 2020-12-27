@@ -1,2 +1,6 @@
-package parsing;public class SQLToXMLConverter {
+package parsing;
+
+
+public class SQLToXMLConverter {
+
 }

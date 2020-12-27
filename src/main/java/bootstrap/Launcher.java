@@ -10,5 +10,6 @@ public class Launcher {
 
         XMLToSQLConverter converter = new XMLToSQLConverter(db);
         converter.convertXMLToSQL("resources/example_shop.xml");
+
     }
 }
