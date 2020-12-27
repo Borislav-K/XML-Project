@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE market SYSTEM "C:\Users\user\IdeaProjects\fmi\mjt\XML-Project\resources\market.dtd">
+<!DOCTYPE market SYSTEM "resources\market.dtd">
 <market>
     <!--        PRODUCT TYPES        -->
     <productType productTypeId="p1">
@@ -22,7 +22,7 @@
     <!--          PRODUCTS           -->
     <products>
         <product upi="upi1" productTypeId="p1" vendorId="v1">
-            <price>0.95$</price>
+            <price>0.95BGN</price>
         </product>
 
         <product upi="upi2" productTypeId="p1" vendorId="v2">
