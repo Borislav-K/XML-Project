@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE market SYSTEM "market.dtd">
+<!DOCTYPE market SYSTEM "C:\Users\user\IdeaProjects\fmi\mjt\XML-Project\src\main\resources\market.dtd">
 <market>
     <!--        PRODUCT TYPES        -->
     <productType productTypeId="p1">
