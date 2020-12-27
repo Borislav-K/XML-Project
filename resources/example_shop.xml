@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE market SYSTEM "market.dtd">
+<market>
+    <!--        PRODUCT TYPES        -->
+    <productType productTypeId="p1">
+        <name>Apple</name>
+    </productType>
+    <productType productTypeId="p2">
+        <name>Jacket</name>
+    </productType>
+
+    <!--           VENDORS           -->
+    <vendor vendorId="v1">
+        <name>vendor1</name>
+        <city>Sofia</city>
+    </vendor>
+    <vendor vendorId="v2">
+        <name>vendor2</name>
+        <city>Plovdiv</city>
+    </vendor>
+
+    <!--          PRODUCTS           -->
+    <products>
+        <product upi="upi1" productTypeId="p1" vendorId="v1">
+            <price>0.95$</price>
+        </product>
+
+        <product upi="upi2" productTypeId="p1" vendorId="v2">
+            <price>0.60$</price>
+        </product>
+
+        <product upi="upi3" productTypeId="p2" vendorId="v2">
+            <price>35.00$</price>
+        </product>
+    </products>
+</market>
