@@ -60,7 +60,7 @@ public class Application {
         if (flag.equals(XML_TO_SQL_FLAG)) {
             try (FileReader reader = new FileReader(file);) {
                 xsConverter.convertXMLToSQL(reader);
-                System.out.println("Conversion successful. The XML file's content was added into the database");
+                System.out.print("Conversion successful. The XML file's content was added into the database");
             } catch (IOException e) {
                 System.out.printf("The file %s does not exist or could not be opened\n", file);
             } catch (BadlyStructuredXMLException | InvalidXMLException e) {

@@ -39,7 +39,7 @@ public class SQLToXMLConverter {
 
         try {
             XMLStreamWriter writer = factory.createXMLStreamWriter(output);
-            writer.writeStartDocument();
+            writer.writeStartDocument("UTF-8", "1.0");
             writer.writeDTD(DTD);
             writer.writeStartElement("market");
             for (ProductType productType : productTypes) {
