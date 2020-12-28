@@ -66,8 +66,12 @@ public class DataInserter {
 
 
     private void initTables() {
-        initVendorsTable();
+        //They need to be dropped in the reverse order - as product depends on vendors&productTypes
+        dropTable(PRODUCT_TABLE);
+        dropTable(VENDOR_TABLE);
+        dropTable(PRODUCT_TYPE_TABLE);
         initProductTypesTable();
+        initVendorsTable();
         initProductsTable();
     }
 
@@ -79,7 +83,6 @@ public class DataInserter {
                              "PRIMARY KEY (ID)\n" +
                              ");";
         try {
-            dropTable(VENDOR_TABLE);
             executeQuery(createTable);
         } catch (SQLException e) {
             throw new IllegalStateException("Could not create the vendors table", e);
@@ -93,7 +96,6 @@ public class DataInserter {
                              "PRIMARY KEY (ID)\n" +
                              ");";
         try {
-            dropTable(PRODUCT_TYPE_TABLE);
             executeQuery(createTable);
         } catch (SQLException e) {
             throw new IllegalStateException("Could not create the product types table", e);
@@ -111,7 +113,6 @@ public class DataInserter {
                              "FOREIGN KEY (vendorId) REFERENCES Vendor(ID)\n" +
                              ");";
         try {
-            dropTable(PRODUCT_TABLE);
             executeQuery(createTable);
         } catch (SQLException e) {
             e.printStackTrace();

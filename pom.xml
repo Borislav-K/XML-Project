@@ -21,7 +21,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>bootstrap.Launcher</mainClass>
+                            <mainClass>Launcher</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -41,8 +41,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.190</version>
-            <scope>runtime</scope>
+            <version>1.4.200</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.woodstox</groupId>

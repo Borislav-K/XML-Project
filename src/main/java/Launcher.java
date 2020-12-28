@@ -1,4 +1,4 @@
-package bootstrap;
+import bootstrap.Application;
 
 public class Launcher {
 
