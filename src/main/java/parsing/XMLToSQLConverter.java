@@ -10,6 +10,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.XMLEvent;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class XMLToSQLConverter {
         this.db = db;
     }
 
-    public void convertXMLToSQL(String filePath) {
+    public void convertXMLToSQL(String filePath) throws IOException {
         try (FileReader fileReader = new FileReader(filePath)) {
             XMLStreamReader reader = factory.createXMLStreamReader(fileReader);
             resetLists();
@@ -57,9 +58,6 @@ public class XMLToSQLConverter {
             insertDataIntoDB();
             reader.close();
             System.out.println("Conversion successful. The data from the document is added to the database");
-        } catch (IOException e) {
-            System.out.printf("Could not open file %s", filePath);
-            e.printStackTrace();
         } catch (WstxValidationException e) {
             System.out.println("The XML file is not valid!");
         } catch (XMLStreamException e) {
