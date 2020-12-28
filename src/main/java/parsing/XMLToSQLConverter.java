@@ -1,7 +1,10 @@
 package parsing;
 
+import com.ctc.wstx.exc.WstxParsingException;
 import com.ctc.wstx.exc.WstxValidationException;
 import db.DatabaseService;
+import exceptions.BadlyStructuredXMLException;
+import exceptions.InvalidXMLException;
 import model.Product;
 import model.ProductType;
 import model.Vendor;
@@ -10,9 +13,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.XMLEvent;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,9 +47,9 @@ public class XMLToSQLConverter {
         this.db = db;
     }
 
-    public void convertXMLToSQL(String filePath) throws IOException {
-        try (FileReader fileReader = new FileReader(filePath)) {
-            XMLStreamReader reader = factory.createXMLStreamReader(fileReader);
+    public void convertXMLToSQL(Reader input) throws BadlyStructuredXMLException, InvalidXMLException {
+        try {
+            XMLStreamReader reader = factory.createXMLStreamReader(input);
             resetLists();
             while (reader.hasNext()) {
                 if (reader.next() == XMLEvent.START_ELEMENT) {
@@ -57,12 +58,12 @@ public class XMLToSQLConverter {
             }
             insertDataIntoDB();
             reader.close();
-            System.out.println("Conversion successful. The data from the document is added to the database");
         } catch (WstxValidationException e) {
-            System.out.println("The XML file is not valid!");
+            throw new InvalidXMLException(String.format("The XML file is not valid: %s", e.getMessage()));
+        } catch (WstxParsingException e) {
+            throw new BadlyStructuredXMLException(String.format("The XML file is badly structured: %s", e.getMessage()));
         } catch (XMLStreamException e) {
-            System.out.println("There was an error while parsing the file");
-            e.printStackTrace();
+            System.out.printf("There was an error while parsing the file: %s \n Aborting conversion\n", e.getMessage());
         }
     }
 

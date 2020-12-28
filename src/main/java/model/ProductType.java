@@ -4,6 +4,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class ProductType {
 
@@ -34,5 +35,19 @@ public class ProductType {
         writer.writeCharacters(name);
         writer.writeEndElement();
         writer.writeEndElement();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductType)) return false;
+        ProductType that = (ProductType) o;
+        return Objects.equals(ID, that.ID) &&
+               Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID, name);
     }
 }

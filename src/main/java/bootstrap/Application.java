@@ -1,9 +1,12 @@
 package bootstrap;
 
 import db.DatabaseService;
+import exceptions.BadlyStructuredXMLException;
+import exceptions.InvalidXMLException;
 import parsing.SQLToXMLConverter;
 import parsing.XMLToSQLConverter;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -55,16 +58,17 @@ public class Application {
         String flag = args[0];
         String file = args[1];
         if (flag.equals(XML_TO_SQL_FLAG)) {
-            try {
-                xsConverter.convertXMLToSQL(file);
+            try (FileReader reader = new FileReader(file);) {
+                xsConverter.convertXMLToSQL(reader);
             } catch (IOException e) {
                 System.out.printf("The file %s does not exist or could not be opened\n", file);
+            } catch (BadlyStructuredXMLException | InvalidXMLException e) {
+                System.out.println(e.getMessage());
             }
             return;
         }
         if (flag.equals(SQL_TO_XML_FLAG)) {
-            try {
-                FileWriter writer = new FileWriter(file);
+            try (FileWriter writer = new FileWriter(file);) {
                 sxConverter.convertSQLToXML(writer);
             } catch (IOException e) {
                 System.out.printf("The file %s does not exist or could not be opened\n", file);

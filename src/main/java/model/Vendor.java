@@ -4,6 +4,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class Vendor {
 
@@ -39,5 +40,20 @@ public class Vendor {
         writer.writeCharacters(city);
         writer.writeEndElement();
         writer.writeEndElement();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vendor)) return false;
+        Vendor vendor = (Vendor) o;
+        return Objects.equals(ID, vendor.ID) &&
+               Objects.equals(name, vendor.name) &&
+               Objects.equals(city, vendor.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID, name, city);
     }
 }

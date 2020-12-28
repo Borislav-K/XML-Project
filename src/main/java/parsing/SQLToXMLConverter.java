@@ -1,7 +1,6 @@
 package parsing;
 
 
-import com.ctc.wstx.exc.WstxValidationException;
 import db.DatabaseService;
 import model.Product;
 import model.ProductType;
@@ -54,13 +53,8 @@ public class SQLToXMLConverter {
                 product.convertToXML(writer);
             }
             writer.writeEndDocument();
-
-            System.out.println("Conversion successful. The data from the database is converted into XML");
-        } catch (WstxValidationException e) {
-            System.out.println("The XML file is not valid!");
         } catch (XMLStreamException e) {
-            System.out.println("There was an error while parsing the file");
-            e.printStackTrace();
+            System.out.printf("There was an error while parsing the file: %s \n Aborting conversion\n", e.getMessage());
         }
     }
 
