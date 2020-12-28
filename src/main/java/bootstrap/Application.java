@@ -60,16 +60,19 @@ public class Application {
         if (flag.equals(XML_TO_SQL_FLAG)) {
             try (FileReader reader = new FileReader(file);) {
                 xsConverter.convertXMLToSQL(reader);
+                System.out.println("Conversion successful. The XML file's content was added into the database");
             } catch (IOException e) {
                 System.out.printf("The file %s does not exist or could not be opened\n", file);
             } catch (BadlyStructuredXMLException | InvalidXMLException e) {
                 System.out.println(e.getMessage());
             }
+            System.out.println();
             return;
         }
         if (flag.equals(SQL_TO_XML_FLAG)) {
             try (FileWriter writer = new FileWriter(file);) {
                 sxConverter.convertSQLToXML(writer);
+                System.out.printf("Conversion successful. The content of the database can be found at %s\n", file);
             } catch (IOException e) {
                 System.out.printf("The file %s does not exist or could not be opened\n", file);
             }
