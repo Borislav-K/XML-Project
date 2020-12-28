@@ -12,8 +12,8 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
 
 public class SQLToXMLConverter {
@@ -33,13 +33,13 @@ public class SQLToXMLConverter {
         this.db = db;
     }
 
-    public void convertSQLToXML(String outputFilePath) {
+    public void convertSQLToXML(Writer output) {
         List<Vendor> vendors = db.fetchVendors();
         List<ProductType> productTypes = db.fetchProductTypes();
         List<Product> products = db.fetchProducts();
 
-        try (FileWriter fileWriter = new FileWriter(outputFilePath)) {
-            XMLStreamWriter writer = factory.createXMLStreamWriter(fileWriter);
+        try {
+            XMLStreamWriter writer = factory.createXMLStreamWriter(output);
             writer.writeStartDocument();
             writer.writeDTD(DTD);
             writer.writeStartElement("market");
@@ -56,9 +56,6 @@ public class SQLToXMLConverter {
             writer.writeEndDocument();
 
             System.out.println("Conversion successful. The data from the database is converted into XML");
-        } catch (IOException e) {
-            System.out.printf("Could not open file %s", outputFilePath);
-            e.printStackTrace();
         } catch (WstxValidationException e) {
             System.out.println("The XML file is not valid!");
         } catch (XMLStreamException e) {

@@ -4,6 +4,7 @@ import db.DatabaseService;
 import parsing.SQLToXMLConverter;
 import parsing.XMLToSQLConverter;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -62,7 +63,12 @@ public class Application {
             return;
         }
         if (flag.equals(SQL_TO_XML_FLAG)) {
-            sxConverter.convertSQLToXML(file);
+            try {
+                FileWriter writer = new FileWriter(file);
+                sxConverter.convertSQLToXML(writer);
+            } catch (IOException e) {
+                System.out.printf("The file %s does not exist or could not be opened\n", file);
+            }
             return;
         }
         printConvertUsage();
