@@ -103,7 +103,6 @@ public class DataInserter {
         try {
             executeQuery(createTable);
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new IllegalStateException("Could not create the products table", e);
         }
     }

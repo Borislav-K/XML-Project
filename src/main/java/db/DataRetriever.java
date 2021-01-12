@@ -24,42 +24,42 @@ public class DataRetriever {
     }
 
     public List<Vendor> fetchVendors() {
-        List<Vendor> vendors = new ArrayList<>();
         try {
+            List<Vendor> vendors = new ArrayList<>();
             ResultSet rs = fetchAllRows(VENDOR_TABLE);
             while (rs.next()) {
                 vendors.add(new Vendor(rs));
             }
+            return vendors;
         } catch (SQLException e) {
             throw new IllegalStateException("Could not read entries from the database", e);
         }
-        return vendors;
     }
 
     public List<ProductType> fetchProductTypes() {
-        List<ProductType> productTypes = new ArrayList<>();
         try {
+            List<ProductType> productTypes = new ArrayList<>();
             ResultSet rs = fetchAllRows(PRODUCT_TYPE_TABLE);
             while (rs.next()) {
                 productTypes.add(new ProductType(rs));
             }
+            return productTypes;
         } catch (SQLException e) {
             throw new IllegalStateException("Could not read entries from the database", e);
         }
-        return productTypes;
     }
 
     public List<Product> fetchProducts() {
-        List<Product> products = new ArrayList<>();
         try {
+            List<Product> products = new ArrayList<>();
             ResultSet rs = fetchAllRows(PRODUCT_TABLE);
             while (rs.next()) {
                 products.add(new Product(rs));
             }
+            return products;
         } catch (SQLException e) {
             throw new IllegalStateException("Could not read entries from the database", e);
         }
-        return products;
     }
 
     private ResultSet fetchAllRows(String tableName) throws SQLException {
