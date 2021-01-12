@@ -6,6 +6,7 @@ import exceptions.InvalidXMLException;
 import parsing.SQLToXMLConverter;
 import parsing.XMLToSQLConverter;
 
+import javax.xml.stream.XMLStreamException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -38,7 +39,6 @@ public class Application {
             while (true) {
                 System.out.print("Enter command: ");
                 String cmd = in.nextLine();
-
                 if (cmd.trim().equalsIgnoreCase(QUIT_COMMAND)) {
                     return;
                 }
@@ -59,35 +59,40 @@ public class Application {
         }
         String flag = args[0];
         String file = args[1];
-        if (flag.equals(XML_TO_SQL_FLAG)) {
-            try (FileReader reader = new FileReader(file);) {
-                xsConverter.convertXMLToSQL(reader);
-                System.out.print("Conversion successful. The XML file's content was added into the database");
-            } catch (SQLException e) {
-                if (e.getErrorCode() == INDEX_CONSTRAINT_ERROR_CODE) {
-                    System.out.printf("The data in %s violates duplicate key constraints in the database: %s",
-                            file, e.getMessage().split("SQL statement")[0]); // Shows a proper portion of the msg
-                } else {
-                    System.out.printf("Could not flush the content to the database: %s",e.getMessage());
-                }
-            } catch (IOException e) {
-                System.out.printf("The file %s does not exist or could not be opened\n", file);
-            } catch (BadlyStructuredXMLException | InvalidXMLException e) {
-                System.out.println(e.getMessage());
-            }
-            System.out.println();
-            return;
+        switch (flag) {
+            case XML_TO_SQL_FLAG -> handleXMLToSQLCommand(file);
+            case SQL_TO_XML_FLAG -> handleSQLToXMLCommand(file);
+            default -> printConvertUsage();
         }
-        if (flag.equals(SQL_TO_XML_FLAG)) {
-            try (FileWriter writer = new FileWriter(file);) {
-                sxConverter.convertSQLToXML(writer);
-                System.out.printf("Conversion successful. The content of the database can be found at %s\n", file);
-            } catch (IOException e) {
-                System.out.printf("The file %s does not exist or could not be opened\n", file);
+    }
+
+    private void handleXMLToSQLCommand(String inputFile) {
+        try (FileReader reader = new FileReader(inputFile);) {
+            xsConverter.convertXMLToSQL(reader);
+            System.out.println("Conversion successful. The XML file's content was added into the database");
+        } catch (SQLException e) {
+            if (e.getErrorCode() == INDEX_CONSTRAINT_ERROR_CODE) {
+                System.out.printf("The data in %s violates duplicate key constraints in the database: %s\n",
+                        inputFile, e.getMessage().split("SQL statement")[0]); // Shows a proper portion of the msg
+            } else {
+                System.out.printf("Could not flush the content to the database: %s\n", e.getMessage());
             }
-            return;
+        } catch (IOException e) {
+            System.out.printf("The file %s does not exist or could not be opened\n", inputFile);
+        } catch (BadlyStructuredXMLException | InvalidXMLException e) {
+            System.out.println(e.getMessage());
         }
-        printConvertUsage();
+    }
+
+    private void handleSQLToXMLCommand(String outputFile) {
+        try (FileWriter writer = new FileWriter(outputFile);) {
+            sxConverter.convertSQLToXML(writer);
+            System.out.printf("Conversion successful. The content of the database can be found at %s\n", outputFile);
+        } catch (IOException e) {
+            System.out.printf("The file %s does not exist or could not be opened\n", outputFile);
+        } catch (XMLStreamException e) {
+            System.out.printf("There was an error while parsing %s: %s \n Aborting conversion\n", outputFile, e.getMessage());
+        }
     }
 
     private void printConvertUsage() {

@@ -23,7 +23,7 @@ public class SQLToXMLConverterTest {
     }
 
     @Test
-    public void testSQLToXMLWhenDatabaseIsEmpty() {
+    public void testSQLToXMLWhenDatabaseIsEmpty() throws Exception{
         when(mockDB.fetchProducts()).thenReturn(EMPTY_PRODUCT_LIST);
         when(mockDB.fetchProductTypes()).thenReturn(EMPTY_PRODUCT_TYPE_LIST);
         when(mockDB.fetchVendors()).thenReturn(EMPTY_VENDOR_LIST);
@@ -34,7 +34,7 @@ public class SQLToXMLConverterTest {
     }
 
     @Test
-    public void testSQLToXMLWhenDatabaseIsNotEmpty() {
+    public void testSQLToXMLWhenDatabaseIsNotEmpty() throws Exception{
         when(mockDB.fetchProducts()).thenReturn(PRODUCT_LIST_OK);
         when(mockDB.fetchProductTypes()).thenReturn(PRODUCT_TYPE_LIST_OK);
         when(mockDB.fetchVendors()).thenReturn(VENDOR_LIST_OK);

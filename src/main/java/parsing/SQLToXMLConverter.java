@@ -17,14 +17,8 @@ import java.util.List;
 
 public class SQLToXMLConverter {
 
-    private static final XMLOutputFactory factory;
-
-    private static String DTD;
-
-    static {
-        loadDTD();
-        factory = XMLOutputFactory.newInstance();
-    }
+    private static final XMLOutputFactory factory = XMLOutputFactory.newInstance();
+    private static final String DTD = loadDTD();
 
     private DatabaseService db;
 
@@ -32,33 +26,29 @@ public class SQLToXMLConverter {
         this.db = db;
     }
 
-    public void convertSQLToXML(Writer output) {
+    public void convertSQLToXML(Writer output) throws XMLStreamException {
         List<Vendor> vendors = db.fetchVendors();
         List<ProductType> productTypes = db.fetchProductTypes();
         List<Product> products = db.fetchProducts();
 
-        try {
-            XMLStreamWriter writer = factory.createXMLStreamWriter(output);
-            writer.writeStartDocument("UTF-8", "1.0");
-            writer.writeDTD(DTD);
-            writer.writeStartElement("market");
-            for (ProductType productType : productTypes) {
-                productType.convertToXML(writer);
-            }
-            for (Vendor vendor : vendors) {
-                vendor.convertToXML(writer);
-            }
-            writer.writeStartElement("products");
-            for (Product product : products) {
-                product.convertToXML(writer);
-            }
-            writer.writeEndDocument();
-        } catch (XMLStreamException e) {
-            System.out.printf("There was an error while parsing the file: %s \n Aborting conversion\n", e.getMessage());
+        XMLStreamWriter writer = factory.createXMLStreamWriter(output);
+        writer.writeStartDocument("UTF-8", "1.0");
+        writer.writeDTD(DTD);
+        writer.writeStartElement("market");
+        for (ProductType productType : productTypes) {
+            productType.convertToXML(writer);
         }
+        for (Vendor vendor : vendors) {
+            vendor.convertToXML(writer);
+        }
+        writer.writeStartElement("products");
+        for (Product product : products) {
+            product.convertToXML(writer);
+        }
+        writer.writeEndDocument();
     }
 
-    private static void loadDTD() {
+    private static String loadDTD() {
         StringBuilder sb = new StringBuilder();
         try (FileReader fileReader = new FileReader("resources/inline.dtd");
              BufferedReader bufferedReader = new BufferedReader(fileReader)) {
@@ -66,6 +56,6 @@ public class SQLToXMLConverter {
         } catch (IOException e) {
             throw new IllegalStateException("Could not load the DTD from the given file", e);
         }
-        DTD = sb.toString();
+        return sb.toString();
     }
 }
