@@ -25,34 +25,22 @@ public class DataInserter {
         initTables();
     }
 
-    public void insertVendors(List<Vendor> vendors) {
+    public void insertVendors(List<Vendor> vendors) throws SQLException {
         StringBuilder sb = new StringBuilder(VENDOR_INSERTION_HEADER);
         vendors.forEach(vendor -> sb.append(vendor.toSQLTuple()));
-        try {
-            executeQuery(stripComma(sb));
-        } catch (SQLException e) {
-            throw new IllegalStateException("Could not insert vendors to the database. Reason %s", e);
-        }
+        executeQuery(stripComma(sb));
     }
 
-    public void insertProductTypes(List<ProductType> productTypes) {
+    public void insertProductTypes(List<ProductType> productTypes) throws SQLException {
         StringBuilder sb = new StringBuilder(PRODUCT_TYPE_INSERTION_HEADER);
         productTypes.forEach(p -> sb.append(p.toSQLTuple()));
-        try {
-            executeQuery(stripComma(sb));
-        } catch (SQLException e) {
-            throw new IllegalStateException("Could not insert product types to the database. Reason %s", e);
-        }
+        executeQuery(stripComma(sb));
     }
 
-    public void insertProducts(List<Product> products) {
+    public void insertProducts(List<Product> products) throws SQLException {
         StringBuilder sb = new StringBuilder(PRODUCT_INSERTION_HEADER);
         products.forEach(product -> sb.append(product.toSQLTuple()));
-        try {
-            executeQuery(stripComma(sb));
-        } catch (SQLException e) {
-            throw new IllegalStateException("Could not insert product types to the database", e);
-        }
+        executeQuery(stripComma(sb));
     }
 
     private void executeQuery(String sql) throws SQLException {

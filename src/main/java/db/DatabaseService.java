@@ -33,15 +33,15 @@ public class DatabaseService {
         }
     }
 
-    public void insertVendors(List<Vendor> vendors) {
+    public void insertVendors(List<Vendor> vendors) throws SQLException {
         inserter.insertVendors(vendors);
     }
 
-    public void insertProductTypes(List<ProductType> productTypes) {
+    public void insertProductTypes(List<ProductType> productTypes) throws SQLException {
         inserter.insertProductTypes(productTypes);
     }
 
-    public void insertProducts(List<Product> products) {
+    public void insertProducts(List<Product> products) throws SQLException {
         inserter.insertProducts(products);
     }
 

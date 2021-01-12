@@ -9,6 +9,7 @@ import parsing.XMLToSQLConverter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -18,8 +19,9 @@ public class Application {
     private static final String CONVERT_COMMAND = "convert";
     private static final String XML_TO_SQL_FLAG = "--tosql";
     private static final String SQL_TO_XML_FLAG = "--toxml";
-    private static final int CONVERT_ARGUMENTS_LENGTH = 2;
 
+    private static final int CONVERT_ARGUMENTS_LENGTH = 2;
+    private static final int INDEX_CONSTRAINT_ERROR_CODE = 23505;
 
     private DatabaseService db;
     private XMLToSQLConverter xsConverter;
@@ -61,6 +63,13 @@ public class Application {
             try (FileReader reader = new FileReader(file);) {
                 xsConverter.convertXMLToSQL(reader);
                 System.out.print("Conversion successful. The XML file's content was added into the database");
+            } catch (SQLException e) {
+                if (e.getErrorCode() == INDEX_CONSTRAINT_ERROR_CODE) {
+                    System.out.printf("The data in %s violates duplicate key constraints in the database: %s",
+                            file, e.getMessage().split("SQL statement")[0]); // Shows a proper portion of the msg
+                } else {
+                    System.out.printf("Could not flush the content to the database: %s",e.getMessage());
+                }
             } catch (IOException e) {
                 System.out.printf("The file %s does not exist or could not be opened\n", file);
             } catch (BadlyStructuredXMLException | InvalidXMLException e) {

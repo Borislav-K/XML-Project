@@ -14,6 +14,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.XMLEvent;
 import java.io.Reader;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class XMLToSQLConverter {
         this.db = db;
     }
 
-    public void convertXMLToSQL(Reader input) throws BadlyStructuredXMLException, InvalidXMLException {
+    public void convertXMLToSQL(Reader input) throws BadlyStructuredXMLException, InvalidXMLException, SQLException {
         try {
             XMLStreamReader reader = factory.createXMLStreamReader(input);
             resetLists();
@@ -121,7 +122,7 @@ public class XMLToSQLConverter {
         }
     }
 
-    private void insertDataIntoDB() {
+    private void insertDataIntoDB() throws SQLException {
         db.insertProductTypes(productTypes);
         db.insertVendors(vendors);
         db.insertProducts(products);
